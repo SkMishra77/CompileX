@@ -10,7 +10,7 @@ class ProblemCreationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProblemModel
-        fields = ['p_title', 'p_content', 'p_author', 'p_difficulty']
+        fields = ['p_title', 'p_content', 'p_author', 'p_difficulty', 'is_battle']
 
 
 class ProblemGetSerializer(serializers.ModelSerializer):
