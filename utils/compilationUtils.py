@@ -42,10 +42,12 @@ async def compileCpp_async_with_testcase(code, user_inputs: TestCaseModel):
             't_id': user_inputs.id,
             'expected_out': user_inputs.output_case,
             'passed': True if response_payload['error'] == False and user_inputs.output_case.strip(' ').strip('\n') ==
-                              response_payload['data']['output'].strip(' ').strip('\n') else False
+                              response_payload['data']['output'].strip(' ').strip('\n') else False,
+            "user_input": user_inputs.input_case
         })
         if user_inputs.is_public is False:
             del response_payload['expected_out']
+            del response_payload['user_input']
 
         if response_payload['data']['exec_time'] > 1:
             response_payload['data'] = {
