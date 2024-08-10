@@ -33,7 +33,7 @@ class ArenaViewSet(ViewSet):
         if not p_id:
             return res_fun(1, "Problem ID is required")
 
-        obj = ProblemModel.objects.filter(id=p_id).first()
+        obj = ProblemModel.objects.filter(pk=p_id).first()
         if not obj:
             return res_fun(1, "Problem not found")
 
