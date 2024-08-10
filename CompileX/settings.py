@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "corsheaders",
     "executer.apps.ExecuterConfig",
-    "arena.apps.ArenaConfig"
+    "arena.apps.ArenaConfig",
+    "battlefield.apps.BattlefieldConfig"
 ]
 
 MIDDLEWARE = [

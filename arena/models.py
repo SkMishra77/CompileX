@@ -15,6 +15,7 @@ class ProblemModel(models.Model):
     p_author = models.CharField(max_length=32)
     p_likes = models.IntegerField(default=0)
     p_difficulty = models.IntegerField(choices=P_DIFFICIULTY, default=0)
+    is_battle = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

@@ -25,7 +25,10 @@ class PlayGroundCodeExecuterSocketConsumer(AsyncJsonWebsocketConsumer):
 
                 if language == 'cpp':
                     result = await compileCpp_async(code, user_input)
-                    await self.send_json(response_fun(1, result))
+                    if result['error']:
+                        await self.send_json(response_fun(0, result))
+                    else:
+                        await self.send_json(response_fun(1, result))
                     await self.close()
 
                 else:
