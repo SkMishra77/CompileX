@@ -63,7 +63,7 @@ class ArenaViewSet(ViewSet):
 
     @action(detail=False, methods=['GET'])
     def get_testcase(self, request):
-        p_id = request.data.get('p_id')
+        p_id = request.query_params.get('pid')
         if p_id is None:
             return res_fun(0, "Problem ID is missing")
 
