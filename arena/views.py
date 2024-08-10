@@ -18,11 +18,26 @@ class ArenaViewSet(ViewSet):
 
     @action(detail=False, methods=['GET'])
     def get_problem(self, request):
-        obj = ProblemModel.objects.all().order_by('-created_at')
+        obj = ProblemModel.objects.filter(
+            is_battle=False
+        ).order_by('-created_at')
         paginator = CustomPaginator()
         result_page = paginator.paginate_queryset(obj, request)
         serializer = ProblemGetSerializer(result_page, many=True)
         data = paginator.get_paginated_response(serializer.data).data
+        return res_fun(1, data)
+
+    @action(detail=False, methods=['GET'])
+    def get_problem_by_id(self, request):
+        p_id = request.query_params.get('p_id')
+        if not p_id:
+            return res_fun(1, "Problem ID is required")
+
+        obj = ProblemModel.objects.filter(id=p_id).first()
+        if not obj:
+            return res_fun(1, "Problem not found")
+
+        data = ProblemGetAllSerializer(obj).data
         return res_fun(1, data)
 
     @action(detail=False, methods=['PUT'])

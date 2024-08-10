@@ -16,7 +16,13 @@ class ProblemCreationSerializer(serializers.ModelSerializer):
 class ProblemGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProblemModel
-        fields = '__all__'
+        fields = ['p_id', 'p_title', 'p_author', 'p_difficulty']
+
+
+class ProblemGetAllSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProblemModel
+        fields = ['p_id', 'p_title', 'p_author', 'p_difficulty', 'p_content']
 
 
 class ProblemUpdateSerializer(serializers.ModelSerializer):
