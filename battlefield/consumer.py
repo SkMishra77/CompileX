@@ -1,9 +1,11 @@
 import json
+
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from django.db.models import Sum, F, Window
+from django.db.models import Sum, F, Window, ExpressionWrapper, DurationField
 from django.db.models.functions import Rank
 from django.utils import timezone
+
 from utils.compilationUtils import invoke_all_testcase_lambdas
 from utils.responseUtils import response_fun
 from .models import *
@@ -137,9 +139,19 @@ class BattleCodeExecuterSocketConsumer(AsyncJsonWebsocketConsumer):
                 total_testcases_passed=Sum('testcase_passed')
             )
             .annotate(
+                time_diff=ExpressionWrapper(
+                    F('finished_at') - F('room_id__start_time'),
+                    output_field=DurationField()
+                )
+            )
+            .annotate(
                 rank=Window(
                     expression=Rank(),
-                    order_by=[F('total_testcases_passed').desc(), F('total_runtime').asc()]
+                    order_by=[
+                        F('total_testcases_passed').desc(),
+                        F('total_runtime').asc(),
+                        F('time_diff').asc()  # Order by the calculated time difference
+                    ]
                 )
             )
             .order_by('rank')  # Order by rank
