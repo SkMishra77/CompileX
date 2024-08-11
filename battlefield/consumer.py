@@ -133,16 +133,15 @@ class BattleCodeExecuterSocketConsumer(AsyncJsonWebsocketConsumer):
         results = (
             SubmissionBattleModel.objects
             .filter(room_id=self.room_id)  # Filter by specific room
-            .values('uid', 'uid__name')  # Group by user ID but include the name in the result
+            .values('uid')  # Group by user ID
             .annotate(
+                uid_name=F('uid__name'),
                 total_runtime=Sum('total_runtime'),
-                total_testcases_passed=Sum('testcase_passed')
-            )
-            .annotate(
-                time_diff=ExpressionWrapper(
-                    F('finished_at') - F('room_id__start_time'),
+                total_testcases_passed=Sum('testcase_passed'),
+                time_diff=Sum(ExpressionWrapper(
+                    F('room_id__start_time') - F('finished_at'),
                     output_field=DurationField()
-                )
+                ))
             )
             .annotate(
                 rank=Window(

@@ -12,6 +12,6 @@ class BattleSerializer(serializers.ModelSerializer):
 class LeaderboardEntrySerializer(serializers.Serializer):
     rank = serializers.IntegerField()
     uid = serializers.CharField()
-    uid__name = serializers.CharField(max_length=64)
+    uid_name = serializers.CharField(max_length=64)
     total_runtime = serializers.FloatField()
     total_testcases_passed = serializers.IntegerField()
