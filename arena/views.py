@@ -90,6 +90,19 @@ class ArenaViewSet(ViewSet):
         data = TestCaseViewSerializer(obj, many=True).data
         return res_fun(1, data)
 
+    @action(detail=False, methods=['GET'])
+    def get_testcase_battle(self, request):
+        p_id = request.query_params.get('pid')
+        if p_id is None:
+            return res_fun(0, "Problem ID is missing")
+
+        obj = TestCaseModel.objects.filter(
+            p_id=p_id
+        )
+
+        data = TestCaseViewSerializer(obj, many=True).data
+        return res_fun(1, data)
+
     @action(detail=False, methods=['DELETE'])
     def delete_testcase(self, request):
         t_id = request.data.get('id')
