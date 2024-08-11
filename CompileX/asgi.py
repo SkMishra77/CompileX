@@ -13,6 +13,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
 
 import arena.routing as arena_routing
+import battlefield.routing as battlefield_routing
 import executer.routing as executer_routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'CompileX.settings')
@@ -23,6 +24,6 @@ application = ProtocolTypeRouter({
     "http": django_asgi_app,
     "websocket": URLRouter(
         executer_routing.ws_urlpatterns +
-        arena_routing.ws_urlpatterns
+        arena_routing.ws_urlpatterns + battlefield_routing.ws_urlpatterns
     )
 })
